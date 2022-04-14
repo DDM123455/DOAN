@@ -1,0 +1,80 @@
+﻿@model DOAN.Models.ChiTietDonMua
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<div>
+    <h4>ChiTietDonMua</h4>
+    <hr />
+    <table class="dl-horizontal">
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.SoLuong)</th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Thue)
+            </th>
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.TongCong)
+            </th>
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.DonMua.VoucherDaDung)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.KhachHang.HoTenKH)
+            </th>
+
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Thue)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.TongCong)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.DonMua.VoucherDaDung)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.KhachHang.HoTenKH)
+            </td>
+        </tr>
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaDM }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
