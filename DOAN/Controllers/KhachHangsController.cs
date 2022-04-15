@@ -52,7 +52,7 @@ namespace DOAN.Controllers
         // GET: KhachHangs/Create
         public ActionResult Create()
         {
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai");
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai");
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace DOAN.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai", khachHang.MaLoai);
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai", khachHang.MaLoai);
             return View(khachHang);
         }
 
@@ -86,7 +86,7 @@ namespace DOAN.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai", khachHang.MaLoai);
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai", khachHang.MaLoai);
             return View(khachHang);
         }
 

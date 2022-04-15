@@ -25,7 +25,6 @@ namespace DOAN.Controllers
             
             else
                 return View(db.DonMuas.ToList());
-            var donMuas = db.DonMuas.Include(d => d.ChiTietDonMua);
         }
 
         // GET: DonMuas/Details/5

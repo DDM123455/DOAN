@@ -40,8 +40,8 @@ namespace DOAN.Controllers
         // GET: ChiTietDonMuas/Create
         public ActionResult Create()
         {
-            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "VoucherDaDung");
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTenKH");
+            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "MaDM");
+            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "MaKH");
             return View();
         }
 
@@ -76,8 +76,8 @@ namespace DOAN.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "VoucherDaDung", chiTietDonMua.MaDM);
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTenKH", chiTietDonMua.MaKH);
+            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "MaDM", chiTietDonMua.MaDM);
+            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "MaKH", chiTietDonMua.MaKH);
             return View(chiTietDonMua);
         }
 
@@ -94,8 +94,8 @@ namespace DOAN.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "VoucherDaDung", chiTietDonMua.MaDM);
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTenKH", chiTietDonMua.MaKH);
+            ViewBag.MaDM = new SelectList(db.DonMuas, "MaDM", "MaDM", chiTietDonMua.MaDM);
+            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "MaKH", chiTietDonMua.MaKH);
             return View(chiTietDonMua);
         }
 
