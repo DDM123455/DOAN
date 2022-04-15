@@ -22,6 +22,19 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .btn-search {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 3px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
 </style>
 @using (Html.BeginForm("index", "DonMuas"))
 {
@@ -34,7 +47,7 @@
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
-  background: #f1f1f1;" />
+  " class="btn-search" />
 }
 <p>
     @Html.ActionLink("Create New", "Create")
