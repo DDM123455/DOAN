@@ -48,35 +48,42 @@
   border: none;
  " class="btn-search" />
 }
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Tên Loại")
-        </th>
-        <th>
-            @Html.DisplayName("Giảm")
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "KhachHangs", FormMethod.Post))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenLoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Giam)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MaLoai }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MaLoai }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MaLoai })
-            </td>
-        </tr>
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
     }
 
-</table>
+</div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Tên Loại")
+            </th>
+            <th>
+                @Html.DisplayName("Giảm")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Giam)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaLoai }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaLoai }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MaLoai })
+                </td>
+            </tr>
+        }
+
+    </table>

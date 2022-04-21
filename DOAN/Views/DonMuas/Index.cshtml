@@ -49,57 +49,63 @@
   border: none;
   " class="btn-search" />
 }
-<p>
-    @Html.ActionLink("Create New", "Create")
-   
-</p>
-<p>
-    @Html.ActionLink("Thêm Chi Tiết", "Create", "ChiTietDonMuas")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Ngày")
-        </th>
-        <th>
-            @Html.DisplayName("Điểm tích luỹ")
-        </th>
-        <th>
-            @Html.DisplayName("Voucher Đã sử Dụng")
-        </th>
-        <th>
-            @Html.DisplayName("Ghi Chú")
-        </th>
-        <th>
-            @Html.DisplayName("Mã Đơn Mua")
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "DonMuas", FormMethod.Post))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ngay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiemTichLuy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VoucherDaDung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDM)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
-            </td>
-        </tr>
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
     }
+</div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
 
-</table>
+    </p>
+    <p>
+        @Html.ActionLink("Thêm Chi Tiết", "Create", "ChiTietDonMuas")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Ngày")
+            </th>
+            <th>
+                @Html.DisplayName("Điểm tích luỹ")
+            </th>
+            <th>
+                @Html.DisplayName("Voucher Đã sử Dụng")
+            </th>
+            <th>
+                @Html.DisplayName("Ghi Chú")
+            </th>
+            <th>
+                @Html.DisplayName("Mã Đơn Mua")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiemTichLuy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoucherDaDung)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GhiChu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDM)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
+                </td>
+            </tr>
+        }
+
+    </table>

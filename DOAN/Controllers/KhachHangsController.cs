@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using DOAN.Models;
 
 namespace DOAN.Controllers
@@ -17,19 +19,16 @@ namespace DOAN.Controllers
         // GET: KhachHangs
         public ActionResult Index(string searchBy, string search)
         {
-            
-            
+            if (searchBy == "HoTenKH")
+            {
+                return View(db.KhachHangs.Where(s => s.HoTenKH.Contains(search)).ToList());
+            }
 
-                if (searchBy == "HoTenKH")
-                {
-                    return View(db.KhachHangs.Where(s => s.HoTenKH.Contains(search)).ToList());
-                }
-                else if (searchBy == "GiaChi")
-                    return View(db.KhachHangs.Where(s => s.GiaChi.Contains(search)).ToList());
-                
-                else
-                    return View(db.KhachHangs.ToList());
-            
+
+            else if(searchBy=="GiaChi")
+                return View(db.KhachHangs.Where(s => s.GiaChi.Contains(search)).ToList());
+            else
+             return View(db.KhachHangs.ToList());
         }
 
         // GET: KhachHangs/Details/5
@@ -44,15 +43,13 @@ namespace DOAN.Controllers
             {
                 return HttpNotFound();
             }
-            
             return View(db.ChiTietDonMuas.Where(s => s.MaKH == id).ToList());
-
         }
 
         // GET: KhachHangs/Create
         public ActionResult Create()
         {
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai");
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai");
             return View();
         }
 
@@ -61,7 +58,7 @@ namespace DOAN.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai")] KhachHang khachHang)
+        public ActionResult Create([Bind(Include = "MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai,DiemKH")] KhachHang khachHang)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +67,7 @@ namespace DOAN.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai", khachHang.MaLoai);
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai", khachHang.MaLoai);
             return View(khachHang);
         }
 
@@ -86,7 +83,7 @@ namespace DOAN.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "MaLoai", khachHang.MaLoai);
+            ViewBag.MaLoai = new SelectList(db.LoaiKHs, "MaLoai", "TenLoai", khachHang.MaLoai);
             return View(khachHang);
         }
 
@@ -95,7 +92,7 @@ namespace DOAN.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai")] KhachHang khachHang)
+        public ActionResult Edit([Bind(Include = "MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai,DiemKH")] KhachHang khachHang)
         {
             if (ModelState.IsValid)
             {
@@ -141,5 +138,37 @@ namespace DOAN.Controllers
             }
             base.Dispose(disposing);
         }
+        [HttpPost]
+        public FileResult Export()
+        {
+/*            MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai,DiemKH"
+*/            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[8] {
+                   new DataColumn("MAKH"),
+                new DataColumn("HoTenKH"),
+                new DataColumn("SDT"),
+                new DataColumn("GioiTinh"),
+                new DataColumn("GiaChi"),
+                new DataColumn("GhiChu"),
+                new DataColumn("MaLoai"),
+                new DataColumn("DiemKH"),});
+            var emps = from KhachHang in db.KhachHangs.ToList() select KhachHang;
+            foreach (var khach in emps)
+            {
+                dt.Rows.Add(khach.MaKH, khach.HoTenKH, khach.SDT,
+                    khach.GioiTinh, khach.GiaChi, khach.GhiChu,
+                    khach.MaLoai, khach.DiemKH);
+            }
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                }
+            }
+        }
+
     }
 }

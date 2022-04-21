@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7cd246a01703488987e1d8f67c9b1841" Name="Diagram1">
-        <EntityTypeShape EntityType="CNPMNCModel.ChiTietDonMua" Width="1.5" PointX="3.625" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CNPMNCModel.DonMua" Width="1.5" PointX="0.875" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="CNPMNCModel.KhachHang" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CNPMNCModel.ChiTietDonMua" Width="1.5" PointX="4.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CNPMNCModel.DonMua" Width="1.5" PointX="1.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CNPMNCModel.KhachHang" Width="1.5" PointX="3.375" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CNPMNCModel.LoaiKH" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CNPMNCModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CNPMNCModel.sysdiagram" Width="1.5" PointX="7" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="CNPMNCModel.fk_CTDM" ManuallyRouted="false" />
         <AssociationConnector Association="CNPMNCModel.fk_kh" ManuallyRouted="false" />
         <AssociationConnector Association="CNPMNCModel.fk_CTDM_KH" />

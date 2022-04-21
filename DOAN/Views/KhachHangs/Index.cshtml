@@ -4,6 +4,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h2>Index</h2>
 <style>
     table {
         border-collapse: collapse;
@@ -20,6 +22,7 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+
     .btn-search {
         background-color: #4CAF50;
         border: none;
@@ -34,42 +37,52 @@
         cursor: pointer;
     }
 </style>
-<h2>Khách Hàng</h2>
-@using (Html.BeginForm("index", "KhachHangs"))
+@using (Html.BeginForm("index", "DonMuas"))
 {
-    <b>Search by: </b>@Html.RadioButton("searchBy", "HoTenKH", true)<text>Họ Tên Khách Hàng</text>
-    @Html.RadioButton("searchBy", "GiaChi")<text>Địa Chỉ </text>
+    <b>Search by: </b>@Html.RadioButton("searchBy", "HoTenKH", true)<text>Họ Tên Khách Hàng</text
+        @Html.RadioButton("searchBy", "GiaChi", true)<text>Địa Chỉ</text>
 
 
-    @Html.TextBox("Search")
-    <input type="submit" value="Search" style="width: auto;
+
+        @Html.TextBox("Search")
+        <input type="submit" value="Search" style="width: auto;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
   " class="btn-search" />
-}
+    }
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "KhachHangs", FormMethod.Post))
+    {
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
+    }
+
+</div>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Họ Tên Khách Hàng")
+            @Html.DisplayNameFor(model => model.HoTenKH)
         </th>
         <th>
-            @Html.DisplayName("Số Điện Thoại")
+            @Html.DisplayNameFor(model => model.SDT)
         </th>
         <th>
-            @Html.DisplayName("Giới Tính")
+            @Html.DisplayNameFor(model => model.GioiTinh)
         </th>
         <th>
-            @Html.DisplayName("Địa Chỉ")
+            @Html.DisplayNameFor(model => model.GiaChi)
         </th>
         <th>
-            @Html.DisplayName("Ghi Chú")
+            @Html.DisplayNameFor(model => model.GhiChu)
         </th>
         <th>
-            @Html.DisplayName("Tên Loại")
+            @Html.DisplayNameFor(model => model.DiemKH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoaiKH.TenLoai)
         </th>
         <th></th>
     </tr>
@@ -91,6 +104,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemKH)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LoaiKH.TenLoai)

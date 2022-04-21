@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using DOAN.Models;
 
 namespace DOAN.Controllers
@@ -137,5 +139,37 @@ namespace DOAN.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        public FileResult Export()
+        {
+            /*           MaDM,SoLuong,Thue,TongCong,MaKH"
+            */
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[5] {
+                   new DataColumn("MaDM"),
+                new DataColumn("SoLuong"),
+                new DataColumn("Thue"),
+                new DataColumn("TongCong"),
+                new DataColumn("MaKH"),
+               });
+            var emps = from ChiTietDonMua in db.ChiTietDonMuas.ToList() select ChiTietDonMua;
+            foreach (var khach in emps)
+            {
+                dt.Rows.Add(khach.MaDM, khach.SoLuong, khach.Thue,
+                    khach.TongCong, khach.MaKH);
+
+            }
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                }
+            }
+        }
+
     }
 }
