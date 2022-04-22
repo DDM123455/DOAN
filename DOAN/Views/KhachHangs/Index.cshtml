@@ -37,9 +37,9 @@
         cursor: pointer;
     }
 </style>
-@using (Html.BeginForm("index", "DonMuas"))
+@using (Html.BeginForm("Index", "KhachHangs"))
 {
-    <b>Search by: </b>@Html.RadioButton("searchBy", "HoTenKH", true)<text>Họ Tên Khách Hàng</text
+    <b>Search by: </b>@Html.RadioButton("searchBy", "HoTenKH", true) <text>Họ Tên Khách Hàng</text>
         @Html.RadioButton("searchBy", "GiaChi", true)<text>Địa Chỉ</text>
 
 
