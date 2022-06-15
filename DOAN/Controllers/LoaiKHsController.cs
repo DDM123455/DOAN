@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
 using DOAN.Models;
+using System.Linq.Dynamic.Core;
 
 namespace DOAN.Controllers
 {
@@ -17,16 +18,49 @@ namespace DOAN.Controllers
         private CNPMNCEntities db = new CNPMNCEntities();
 
         // GET: LoaiKHs
-        public ActionResult Index(string searchBy, string search)
+        public ActionResult Index(string sortProperty, string sortOrder, string searchBy, string search)
         {
             if (searchBy == "TenLoai")
             {
-                return View(db.LoaiKHs.Where(s => s.TenLoai.Contains(search)).ToList());
+                return View(db.LoaiKHs.Where(m => m.TenLoai.Contains(search)).ToList());
             }
-           
 
-            else
-                return View(db.LoaiKHs.ToList());
+
+            ViewBag.SortOrder = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
+
+            // 2. Lấy tất cả tên thuộc tính của lớp Link (LinkID, LinkName, LinkURL,...)
+            var properties = typeof(LoaiKH).GetProperties();
+            string s = String.Empty;
+            foreach (var item in properties)
+            {
+                // 2.1 Kiểm tra xem thuộc tính nào là virtual (public virtual Category Category...)
+                var isVirtual = item.GetAccessors()[0].IsVirtual;
+
+                // 2.2. Thuộc tính bình thường thì cho phép sắp xếp
+                if (!isVirtual)
+                {
+                    ViewBag.Headings += "<th><a href='?sortProperty=" + item.Name + "&sortOrder=" +
+                        ViewBag.SortOrder + "'>" + item.Name + "</a></th>";
+                }
+                // 2.3. Thuộc tính virtual (public virtual Category Category...) thì không sắp xếp được
+                // cho nên không cần tạo liên kết
+                else ViewBag.Headings += "<th>" + item.Name + "</th>";
+            }
+
+            // 3. Truy vấn lấy tất cả đường dẫn
+            var links = from l in db.LoaiKHs
+                        select l;
+
+
+            // 4. Tạo thuộc tính sắp xếp mặc định là "LinkID"
+            if (String.IsNullOrEmpty(sortProperty)) sortProperty = "MaLoai";
+
+            // 5. Sắp xếp tăng/giảm bằng phương thức OrderBy sử dụng trong thư viện Dynamic LINQ
+            if (sortOrder == "desc") links = links.OrderBy(sortProperty + " desc");
+            else links = links.OrderBy(sortProperty);
+
+            // 6. Trả kết quả về Views
+            return View(links.ToList());
         }
 
         // GET: LoaiKHs/Details/5
@@ -52,10 +86,10 @@ namespace DOAN.Controllers
                            TenLoai = c.TenLoai,
                            MaKH = i.MaKH,
                            HoTenKH = i.HoTenKH,
-                           SDT= (int)i.SDT,
-                           GiaChi=i.GioiTinh,
-                           GioiTinh=i.GioiTinh,
-                           GhiChu=i.GhiChu,
+                           SDT = (int)i.SDT,
+                           GiaChi = i.GioiTinh,
+                           GioiTinh = i.GioiTinh,
+                           GhiChu = i.GhiChu,
 
                        };
             return View(list);
@@ -140,7 +174,6 @@ namespace DOAN.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -164,7 +197,7 @@ namespace DOAN.Controllers
             foreach (var khach in emps)
             {
                 dt.Rows.Add(khach.MaLoai, khach.TenLoai, khach.Giam);
-                 
+
             }
             using (XLWorkbook wb = new XLWorkbook())
             {

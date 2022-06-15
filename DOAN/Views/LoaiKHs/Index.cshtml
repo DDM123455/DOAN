@@ -33,6 +33,21 @@
         transition-duration: 0.4s;
         cursor: pointer;
     }
+    .create {
+        background-color: #ff6a00;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .create a {
+            color: #fff;
+        }
+
+        .create:hover {
+            transform: scale(1.1)
+        }
 </style>
 <h2>Loại Khách Hàng</h2>
 @using (Html.BeginForm("index", "LoaiKHs"))
@@ -55,23 +70,21 @@
     }
 
 </div>
-    <p>
-        @Html.ActionLink("Create New", "Create")
+    <p class="create">
+        @Html.ActionLink("Tạo mới", "Create")
     </p>
     <table class="table">
+
         <tr>
-            <th>
-                @Html.DisplayName("Tên Loại")
-            </th>
-            <th>
-                @Html.DisplayName("Giảm")
-            </th>
-            <th></th>
+            @Html.Raw(ViewBag.Headings)
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaLoai)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TenLoai)
                 </td>

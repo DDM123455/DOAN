@@ -16,12 +16,20 @@
     th, td {
         text-align: left;
         padding: 8px;
-        border: 1px solid #ccc;
     }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
+    th {
+        background-color:#ffd800;
+        color:#555;
     }
+    tr th a{
+        color:#555;
+    }
+        tr th a:hover{
+            color:#fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
     .btn-search {
         background-color: #4CAF50;
         border: none;
@@ -34,6 +42,35 @@
         margin: 4px 2px;
         transition-duration: 0.4s;
         cursor: pointer;
+    }
+    .create {
+        background-color: #ff6a00;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .create a {
+            color: #fff;
+        }
+
+        .create:hover {
+            transform: scale(1.1)
+        }
+    .detail {
+        background-color: #0026ff;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .detail a {
+            color: #fff;
+        }
+    .detail:hover {
+        transform: scale(1.1)
     }
 </style>
 @using (Html.BeginForm("index", "DonMuas"))
@@ -55,36 +92,24 @@
         <input type="submit" name="name" value="Export" class="btn btn-search" />
     }
 </div>
-    <p>
-        @Html.ActionLink("Create New", "Create")
+    <p class="create">
+        @Html.ActionLink("Tạo mới", "Create")
 
     </p>
-    <p>
+    <p class="detail">
         @Html.ActionLink("Thêm Chi Tiết", "Create", "ChiTietDonMuas")
     </p>
     <table class="table">
         <tr>
-            <th>
-                @Html.DisplayName("Ngày")
-            </th>
-            <th>
-                @Html.DisplayName("Điểm tích luỹ")
-            </th>
-            <th>
-                @Html.DisplayName("Voucher Đã sử Dụng")
-            </th>
-            <th>
-                @Html.DisplayName("Ghi Chú")
-            </th>
-            <th>
-                @Html.DisplayName("Mã Đơn Mua")
-            </th>
-            <th></th>
+            @Html.Raw(ViewBag.Headings)
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDM)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Ngay)
                 </td>
@@ -96,9 +121,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.GhiChu)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaDM)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |

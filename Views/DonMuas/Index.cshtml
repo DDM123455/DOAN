@@ -1,0 +1,111 @@
+﻿@model IEnumerable<DOAN.Models.DonMua>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Đơn Mua</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .btn-search {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 3px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+</style>
+@using (Html.BeginForm("index", "DonMuas"))
+{
+    <b>Search by: </b>@Html.RadioButton("searchBy", "MaDM", true)<text>Mã Đơn Mua</text>
+
+
+
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" style="width: auto;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  " class="btn-search" />
+}
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "DonMuas", FormMethod.Post))
+    {
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
+    }
+</div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+
+    </p>
+    <p>
+        @Html.ActionLink("Thêm Chi Tiết", "Create", "ChiTietDonMuas")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Ngày")
+            </th>
+            <th>
+                @Html.DisplayName("Điểm tích luỹ")
+            </th>
+            <th>
+                @Html.DisplayName("Voucher Đã sử Dụng")
+            </th>
+            <th>
+                @Html.DisplayName("Ghi Chú")
+            </th>
+            <th>
+                @Html.DisplayName("Mã Đơn Mua")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiemTichLuy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoucherDaDung)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GhiChu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDM)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
+                </td>
+            </tr>
+        }
+
+    </table>

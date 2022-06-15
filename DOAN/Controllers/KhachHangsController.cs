@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
 using DOAN.Models;
+using System.Linq.Dynamic.Core;
 
 namespace DOAN.Controllers
 {
@@ -17,18 +18,54 @@ namespace DOAN.Controllers
         private CNPMNCEntities db = new CNPMNCEntities();
 
         // GET: KhachHangs
-        public ActionResult Index(string searchBy, string search)
+        public ActionResult Index(string sortProperty, string sortOrder, string searchBy, string search)
         {
             if (searchBy == "HoTenKH")
             {
-                return View(db.KhachHangs.Where(s => s.HoTenKH.Contains(search)).ToList());
+                return View(db.KhachHangs.Where(m => m.HoTenKH.Contains(search)).ToList());
             }
 
 
-            else if(searchBy=="GiaChi")
-                return View(db.KhachHangs.Where(s => s.GiaChi.Contains(search)).ToList());
-            else
-             return View(db.KhachHangs.ToList());
+            else if (searchBy == "GiaChi")
+                return View(db.KhachHangs.Where(m => m.GiaChi.Contains(search)).ToList());
+
+
+            ViewBag.SortOrder = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
+
+            // 2. Lấy tất cả tên thuộc tính của lớp Link (LinkID, LinkName, LinkURL,...)
+            var properties = typeof(KhachHang).GetProperties();
+            string s = String.Empty;
+            foreach (var item in properties)
+            {
+                // 2.1 Kiểm tra xem thuộc tính nào là virtual (public virtual Category Category...)
+                var isVirtual = item.GetAccessors()[0].IsVirtual;
+
+                // 2.2. Thuộc tính bình thường thì cho phép sắp xếp
+                if (!isVirtual)
+                {
+                    ViewBag.Headings += "<th><a href='?sortProperty=" + item.Name + "&sortOrder=" +
+                        ViewBag.SortOrder + "'>" + item.Name + "</a></th>";
+                }
+                // 2.3. Thuộc tính virtual (public virtual Category Category...) thì không sắp xếp được
+                // cho nên không cần tạo liên kết
+                else ViewBag.Headings += "<th>" + item.Name + "</th>";
+            }
+
+            // 3. Truy vấn lấy tất cả đường dẫn
+            var links = from l in db.KhachHangs
+                        select l;
+
+
+            // 4. Tạo thuộc tính sắp xếp mặc định là "LinkID"
+            if (String.IsNullOrEmpty(sortProperty)) sortProperty = "MaKH";
+
+            // 5. Sắp xếp tăng/giảm bằng phương thức OrderBy sử dụng trong thư viện Dynamic LINQ
+            if (sortOrder == "desc") links = links.OrderBy(sortProperty + " desc");
+            else links = links.OrderBy(sortProperty);
+
+            // 6. Trả kết quả về Views
+            return View(links.ToList());
+
         }
 
         // GET: KhachHangs/Details/5
@@ -141,8 +178,9 @@ namespace DOAN.Controllers
         [HttpPost]
         public FileResult Export()
         {
-/*            MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai,DiemKH"
-*/            DataTable dt = new DataTable("Grid");
+            /*            MaKH,HoTenKH,SDT,GioiTinh,GiaChi,GhiChu,MaLoai,DiemKH"
+            */
+            DataTable dt = new DataTable("Grid");
             dt.Columns.AddRange(new DataColumn[8] {
                    new DataColumn("MAKH"),
                 new DataColumn("HoTenKH"),

@@ -22,8 +22,18 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .create {
+        background-color: #ff6a00;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+        .create a {
+            color: #fff;
+        }
 </style>
-<p>
+<p class="create">
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">

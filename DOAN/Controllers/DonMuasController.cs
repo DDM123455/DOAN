@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
 using DOAN.Models;
+using System.Linq.Dynamic.Core;
+
 
 namespace DOAN.Controllers
 {
@@ -17,16 +19,52 @@ namespace DOAN.Controllers
         private CNPMNCEntities db = new CNPMNCEntities();
 
         // GET: DonMuas
-        public ActionResult Index(string searchBy, int search=0)
+        public ActionResult Index(string sortProperty, string sortOrder, string searchBy, int search = 0)
         {
+
+
 
             if (searchBy == "MaDM" & search != 0)
             {
-                return View(db.DonMuas.Where(s => s.MaDM == (int)search).ToList());
+                return View(db.DonMuas.Where(m => m.MaDM == (int)search).ToList());
             }
-            
-            else
-                return View(db.DonMuas.ToList());
+
+            ViewBag.SortOrder = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
+
+            // 2. Lấy tất cả tên thuộc tính của lớp Link (LinkID, LinkName, LinkURL,...)
+            var properties = typeof(DonMua).GetProperties();
+            string s = String.Empty;
+            foreach (var item in properties)
+            {
+                // 2.1 Kiểm tra xem thuộc tính nào là virtual (public virtual Category Category...)
+                var isVirtual = item.GetAccessors()[0].IsVirtual;
+
+                // 2.2. Thuộc tính bình thường thì cho phép sắp xếp
+                if (!isVirtual)
+                {
+                    ViewBag.Headings += "<th><a href='?sortProperty=" + item.Name + "&sortOrder=" +
+                        ViewBag.SortOrder + "'>" + item.Name + "</a></th>";
+                }
+                // 2.3. Thuộc tính virtual (public virtual Category Category...) thì không sắp xếp được
+                // cho nên không cần tạo liên kết
+                else ViewBag.Headings += "<th>" + item.Name + "</th>";
+            }
+
+            // 3. Truy vấn lấy tất cả đường dẫn
+            var links = from l in db.DonMuas
+                        select l;
+
+            // 4. Tạo thuộc tính sắp xếp mặc định là "LinkID"
+            if (String.IsNullOrEmpty(sortProperty)) sortProperty = "MaDM";
+
+            // 5. Sắp xếp tăng/giảm bằng phương thức OrderBy sử dụng trong thư viện Dynamic LINQ
+            if (sortOrder == "desc") links = links.OrderBy(sortProperty + " desc");
+            else links = links.OrderBy(sortProperty);
+
+            // 6. Trả kết quả về Views
+            return View(links.ToList());
+
+
         }
 
         // GET: DonMuas/Details/5
@@ -43,7 +81,7 @@ namespace DOAN.Controllers
             }
             List<DonMua> donMuas = db.DonMuas.ToList();
             List<ChiTietDonMua> chiTietDonMuas = db.ChiTietDonMuas.ToList();
-         
+
             return View(db.ChiTietDonMuas.Where(s => s.MaDM == id).ToList());
         }
 

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<DOAN.Models.ChiTietDonMua>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Thue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TongCong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonMua.VoucherDaDung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KhachHang.HoTenKH)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoLuong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Thue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TongCong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonMua.VoucherDaDung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KhachHang.HoTenKH)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaDM }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaDM }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaDM })
+        </td>
+    </tr>
+}
+
+</table>

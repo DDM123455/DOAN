@@ -1,0 +1,90 @@
+﻿
+@model IEnumerable<DOAN.Models.DanhSachLoaiKH>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<div>
+    <h4>LoaiKH</h4>
+    <hr />
+    <table class="dl-horizontal">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.MaKH)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.HoTenKH)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.GiaChi)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.GioiTinh)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.SDT)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.TenLoai)
+            </td>
+
+        </tr>
+        <tr>
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @item.MaKH
+            </td>
+            <td>
+                @item.HoTenKH
+            </td>
+            <td>
+                @item.GiaChi
+            </td>
+            <td>
+                @item.GioiTinh
+            </td>
+            <td>
+                @item.SDT
+            </td>
+            <td>
+                @item.GhiChu
+                
+            </td>
+            <td>
+                @item.TenLoai
+            </td>
+        </tr>
+            }
+
+
+     </table>
+    
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

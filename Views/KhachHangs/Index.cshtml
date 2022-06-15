@@ -1,0 +1,122 @@
+﻿@model IEnumerable<DOAN.Models.KhachHang>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .btn-search {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 3px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+</style>
+@using (Html.BeginForm("Index", "KhachHangs"))
+{
+    <b>Search by: </b>@Html.RadioButton("searchBy", "HoTenKH", true) <text>Họ Tên Khách Hàng</text>
+        @Html.RadioButton("searchBy", "GiaChi", true)<text>Địa Chỉ</text>
+
+
+
+        @Html.TextBox("Search")
+        <input type="submit" value="Search" style="width: auto;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  " class="btn-search" />
+    }
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "KhachHangs", FormMethod.Post))
+    {
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
+    }
+
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HoTenKH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SDT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GioiTinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GiaChi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GhiChu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiemKH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoaiKH.TenLoai)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTenKH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GioiTinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemKH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiKH.TenLoai)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MaKH }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MaKH }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MaKH })
+            </td>
+        </tr>
+    }
+
+</table>

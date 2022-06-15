@@ -1,0 +1,82 @@
+﻿@model IEnumerable<DOAN.Models.ChiTietDonMua>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<h2>Chi Tiết Đơn Mua</h2>
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "ChiTietDonMuas", FormMethod.Post))
+    {
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
+    }
+
+</div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Số Lượng")
+            </th>
+            <th>
+                @Html.DisplayName("Thuế")
+            </th>
+            <th>
+                @Html.DisplayName("Tổng Cộng")
+            </th>
+            <th>
+                @Html.DisplayName("Mã Đơn Mua")
+            </th>
+            <th>
+                @Html.DisplayName("Họ Tên Khách ")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoLuong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongCong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.HoTenKH)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
+                </td>
+            </tr>
+        }
+
+    </table>

@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
 using DOAN.Models;
+using System.Linq.Dynamic.Core;
+
 
 namespace DOAN.Controllers
 {
@@ -17,11 +19,28 @@ namespace DOAN.Controllers
         private CNPMNCEntities db = new CNPMNCEntities();
 
         // GET: ChiTietDonMuas
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string sortProperty, String search)
         {
+            ViewBag.MaSortParm = String.IsNullOrEmpty(sortOrder) ? "MaDM" : "";
+            ViewBag.TenSortParm = sortOrder == "KhachHang" ? "KhachHangde" : "KhachHang";
+            var students = db.ChiTietDonMuas.AsQueryable();
+            switch (sortOrder)
+            {
+                case "MaDM":
+                    students = students.OrderByDescending(s => s.MaDM);
+                    break;
+                case "KhachHang":
+                    students = students.OrderBy(s => s.KhachHang);
+                    break;
+                case "KhachHangde":
+                    students = students.OrderByDescending(s => s.KhachHang);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.SoLuong);
+                    break;
+            }
+            return View(students.ToList());
 
-            var chiTietDonMuas = db.ChiTietDonMuas.Include(c => c.DonMua).Include(c => c.KhachHang);
-            return View(chiTietDonMuas.ToList());
         }
 
         // GET: ChiTietDonMuas/Details/5
@@ -65,7 +84,6 @@ namespace DOAN.Controllers
             ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "HoTenKH", chiTietDonMua.MaKH);
             return View(chiTietDonMua);
         }
-
         // GET: ChiTietDonMuas/Edit/5
         public ActionResult Edit(int? id)
         {

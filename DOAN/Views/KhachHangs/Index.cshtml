@@ -36,6 +36,20 @@
         transition-duration: 0.4s;
         cursor: pointer;
     }
+    .create {
+        background-color: #ff6a00;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        transition:all 0.3s ease;
+    }
+
+        .create a {
+            color: #fff;
+        }
+        .create:hover{
+            transform:scale(1.1)
+        }
 </style>
 @using (Html.BeginForm("Index", "KhachHangs"))
 {
@@ -58,38 +72,24 @@
     }
 
 </div>
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p class="create">
+    @Html.ActionLink("Tạo mới", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.HoTenKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SDT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GioiTinh)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GiaChi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DiemKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LoaiKH.TenLoai)
-        </th>
-        <th></th>
+
+        @Html.Raw(ViewBag.Headings)
+
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaKH)
+
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.HoTenKH)
             </td>
@@ -104,6 +104,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiKH.MaLoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemKH)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DiemKH)

@@ -20,6 +20,9 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .create{
+
+    }
 </style>
 <h2>Chi Tiết Đơn Mua</h2>
 <div class="form-group pull-right">
@@ -29,54 +32,57 @@
     }
 
 </div>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<p class="create">
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.ActionLink("SoLuong", "Index", new { sortOrder = ViewBag.MaSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Thue", "Index", new { sortOrder = ViewBag.MaSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("TongCong", "Index", new { sortOrder = ViewBag.MaSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Mã Đơn Mua", "Index", new { sortOrder = ViewBag.MaSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Họ Tên Khách Hàng", "Index", new { sortOrder = ViewBag.MaSortParm })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayName("Số Lượng")
-            </th>
-            <th>
-                @Html.DisplayName("Thuế")
-            </th>
-            <th>
-                @Html.DisplayName("Tổng Cộng")
-            </th>
-            <th>
-                @Html.DisplayName("Mã Đơn Mua")
-            </th>
-            <th>
-                @Html.DisplayName("Họ Tên Khách ")
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Thue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongCong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaDM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KhachHang.HoTenKH)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SoLuong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Thue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TongCong)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaDM)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KhachHang.HoTenKH)
-                </td>
+</table>
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.MaDM }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.MaDM }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.MaDM })
-                </td>
-            </tr>
-        }
-
-    </table>

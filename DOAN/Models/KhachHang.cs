@@ -29,8 +29,8 @@ namespace DOAN.Models
         public Nullable<int> MaLoai { get; set; }
         public Nullable<int> DiemKH { get; set; }
     
-        public virtual LoaiKH LoaiKH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietDonMua> ChiTietDonMuas { get; set; }
+        public virtual LoaiKH LoaiKH { get; set; }
     }
 }

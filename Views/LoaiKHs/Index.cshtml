@@ -1,0 +1,89 @@
+﻿@model IEnumerable<DOAN.Models.LoaiKH>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .btn-search {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 3px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+</style>
+<h2>Loại Khách Hàng</h2>
+@using (Html.BeginForm("index", "LoaiKHs"))
+{
+    <b>Search by: </b>@Html.RadioButton("searchBy", "TenLoai", true)<text>Tên Loại</text>
+    
+
+
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" style="width: auto;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+ " class="btn-search" />
+}
+<div class="form-group pull-right">
+    @using (Html.BeginForm("Export", "KhachHangs", FormMethod.Post))
+    {
+        <input type="submit" name="name" value="Export" class="btn btn-search" />
+    }
+
+</div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Tên Loại")
+            </th>
+            <th>
+                @Html.DisplayName("Giảm")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Giam)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaLoai }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaLoai }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MaLoai })
+                </td>
+            </tr>
+        }
+
+    </table>

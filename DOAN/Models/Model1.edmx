@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CNPMNCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CNPMNCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ChiTietDonMua">
           <Key>
             <PropertyRef Name="MaDM" />
@@ -45,6 +45,15 @@
           <Property Name="MaLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenLoai" Type="nvarchar" MaxLength="20" />
           <Property Name="Giam" Type="int" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" />
+          <Property Name="pass" Type="varchar" MaxLength="100" />
+          <Property Name="role" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -92,42 +101,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="CNPMNCModelStoreContainer">
           <EntitySet Name="ChiTietDonMua" EntityType="Self.ChiTietDonMua" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DonMua" EntityType="Self.DonMua" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoaiKH" EntityType="Self.LoaiKH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_CTDM" Association="Self.fk_CTDM">
             <End Role="DonMua" EntitySet="DonMua" />
@@ -142,7 +121,8 @@
             <End Role="KhachHang" EntitySet="KhachHang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CNPMNCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -156,7 +136,7 @@
           <Property Name="TongCong" Type="Int32" />
           <Property Name="MaKH" Type="Int32" />
           <NavigationProperty Name="DonMua" Relationship="Self.fk_CTDM" FromRole="ChiTietDonMua" ToRole="DonMua" />
-          <NavigationProperty Name="KhachHang" Relationship="CNPMNCModel.fk_CTDM_KH" FromRole="ChiTietDonMua" ToRole="KhachHang" />
+          <NavigationProperty Name="KhachHang" Relationship="Self.fk_CTDM_KH" FromRole="ChiTietDonMua" ToRole="KhachHang" />
         </EntityType>
         <EntityType Name="DonMua">
           <Key>
@@ -180,9 +160,9 @@
           <Property Name="GiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GhiChu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MaLoai" Type="Int32" />
-          <NavigationProperty Name="LoaiKH" Relationship="Self.fk_kh" FromRole="KhachHang" ToRole="LoaiKH" />
-          <NavigationProperty Name="ChiTietDonMuas" Relationship="CNPMNCModel.fk_CTDM_KH" FromRole="KhachHang" ToRole="ChiTietDonMua" />
           <Property Name="DiemKH" Type="Int32" />
+          <NavigationProperty Name="ChiTietDonMuas" Relationship="Self.fk_CTDM_KH" FromRole="KhachHang" ToRole="ChiTietDonMua" />
+          <NavigationProperty Name="LoaiKH" Relationship="Self.fk_kh" FromRole="KhachHang" ToRole="LoaiKH" />
         </EntityType>
         <EntityType Name="LoaiKH">
           <Key>
@@ -192,6 +172,15 @@
           <Property Name="TenLoai" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Giam" Type="Int32" />
           <NavigationProperty Name="KhachHangs" Relationship="Self.fk_kh" FromRole="LoaiKH" ToRole="KhachHang" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -215,6 +204,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_CTDM_KH">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
+          <End Role="ChiTietDonMua" Type="Self.ChiTietDonMua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="ChiTietDonMua">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_kh">
           <End Role="LoaiKH" Type="Self.LoaiKH" Multiplicity="0..1" />
           <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="*" />
@@ -232,73 +233,21 @@
           <EntitySet Name="DonMuas" EntityType="Self.DonMua" />
           <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
           <EntitySet Name="LoaiKHs" EntityType="Self.LoaiKH" />
+          <EntitySet Name="logins" EntityType="Self.login" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="fk_CTDM" Association="Self.fk_CTDM">
             <End Role="DonMua" EntitySet="DonMuas" />
+            <End Role="ChiTietDonMua" EntitySet="ChiTietDonMuas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CTDM_KH" Association="Self.fk_CTDM_KH">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
             <End Role="ChiTietDonMua" EntitySet="ChiTietDonMuas" />
           </AssociationSet>
           <AssociationSet Name="fk_kh" Association="Self.fk_kh">
             <End Role="LoaiKH" EntitySet="LoaiKHs" />
             <End Role="KhachHang" EntitySet="KhachHangs" />
           </AssociationSet>
-          <AssociationSet Name="fk_CTDM_KH" Association="CNPMNCModel.fk_CTDM_KH">
-            <End Role="KhachHang" EntitySet="KhachHangs" />
-            <End Role="ChiTietDonMua" EntitySet="ChiTietDonMuas" />
-          </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(CNPMNCModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(CNPMNCModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <Association Name="fk_CTDM_KH">
-          <End Type="CNPMNCModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
-          <End Type="CNPMNCModel.ChiTietDonMua" Role="ChiTietDonMua" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhachHang">
-              <PropertyRef Name="MaKH" />
-            </Principal>
-            <Dependent Role="ChiTietDonMua">
-              <PropertyRef Name="MaKH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -330,7 +279,6 @@
           <EntitySetMapping Name="KhachHangs">
             <EntityTypeMapping TypeName="CNPMNCModel.KhachHang">
               <MappingFragment StoreEntitySet="KhachHang">
-                <ScalarProperty Name="DiemKH" ColumnName="DiemKH" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="HoTenKH" ColumnName="HoTenKH" />
                 <ScalarProperty Name="SDT" ColumnName="SDT" />
@@ -338,6 +286,7 @@
                 <ScalarProperty Name="GiaChi" ColumnName="GiaChi" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
+                <ScalarProperty Name="DiemKH" ColumnName="DiemKH" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -347,6 +296,16 @@
                 <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
                 <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
                 <ScalarProperty Name="Giam" ColumnName="Giam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="CNPMNCModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="role" ColumnName="role" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -361,30 +320,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="CNPMNCModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="CNPMNCModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="CNPMNCModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="CNPMNCModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CNPMNCModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="CNPMNCModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CNPMNCModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="CNPMNCModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="CNPMNCModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
